@@ -1,0 +1,53 @@
+name: capstonefinal1
+description: A new Flutter application.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  menu_button: ^1.4.2+1
+  scalable_image: ^1.1.2
+  pixel_perfect: ^1.1.0
+  convex_bottom_bar: ^3.0.0
+  salomon_bottom_bar: ^3.0.0
+  bottom_navy_bar: ^6.0.0
+  auto_layout: ^1.0.4
+  expandable_tree_menu: ^0.1.0-dev.5
+  auto_animated: ^3.0.0
+
+
+
+  animated_stack: ^0.2.0
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+
+  uses-material-design: true
+
+
+  assets:
+    - images/
+
+
+  fonts:
+    - family: Gloria Hallelujah
+      fonts:
+        - asset: fonts/GloriaHallelujah-Regular.ttf
+    - family: PT Serif
+      fonts:
+        - asset: fonts/PTSerif-Regular.ttf
+
