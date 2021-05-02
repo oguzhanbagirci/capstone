@@ -1,4 +1,4 @@
-# capstonefinal1
+# CAPSTONE APP 
 
 A new Flutter application.
 
