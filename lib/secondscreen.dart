@@ -113,19 +113,81 @@ class _InfoPageState extends State<InfoPage> {
 
 
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   // ignore: missing_return, non_constant_identifier_names
 List<String> Lecturer = <String>[
-  'tevfik aytekin',
-  'oguzhan bagirci',
-  'onur vasfi',
-  'alperen arslan',
-  'onat can donmez',
-
-
-
+  '1.Doç. Dr. Tevfik AYTEKİN',
+  '2.Prof. Dr. Nafiz ARICA',
+  '3.Prof. Dr. Çağatay ÇATAL',
+  '4.Dr. Öğr. Üyesi Cemal Okan ŞAKAR',
+  '5.Dr. Öğr. Üyesi Tarkan AYDIN',
+  '6.Dr. Öğr. Üyesi Övgü ÖZTÜRK',
+  '7.Dr. Öğr. Üyesi Selçuk BAKTIR',
+  '8.Dr. Öğr. Üyesi Ece Gelal SOYAK',
+  '9.Dr. Öğr. Üyesi Görkem KAR',
 
 ];
+// ignore: non_constant_identifier_names
+List<String> namesbody = <String>[
+  'Tevfik AYTEKİN',
+  'Nafiz ARICA',
+  'Çağatay ÇATAL',
+  'Cemal Okan ŞAKAR',
+  'Tarkan AYDIN',
+  'Övgü ÖZTÜRK',
+  'Selçuk BAKTIR',
+  'Ece Gelal SOYAK',
+  'Görkem KAR',
+];
+List<String> mails = <String>[
+  ' Email: tevfik.aytekin@eng.bau.edu.tr',
+  ' Email: nafiz.arica@eng.bau.edu.tr',
+  ' Email: cagatay.catal@eng.bau.edu.tr',
+  ' Email: okan.sakar@eng.bau.edu.tr',
+  ' Email: tarkan.aydin@eng.bau.edu.tr',
+  ' Email: ovgu.ozturk@eng.bau.edu.tr',
+  ' Email: selcuk.baktir@eng.bau.edu.tr',
+  ' Email: ece.gelalsoyak@eng.bau.edu.tr',
+  ' Email: gorkem.kar@eng.bau.edu.tr',
+];
+List<String> phoneno = <String>[
+  ' Phone No: +90 212 381 0580',
+  ' Phone No: +90 212 381 5800',
+  ' Phone No: +90 212 381 0000',
+  ' Phone No: +90 212 381 0571',
+  ' Phone No: +90 212 381 0318',
+  ' Phone No: +90 212 381 5688',
+  ' Phone No: +90 212 381 5676',
+  ' Phone No: +90 212 381 0000',
+  ' Phone No: +90 212 381 0569',
+
+];
+  List<String> officeno = <String>[
+    ' Office No: D529',
+    ' Office No: D515',
+    ' Office No: D411',
+    ' Office No: D413',
+    ' Office No: D413',
+    ' Office No: D309',
+    ' Office No: D519',
+    ' Office No: D312',
+    ' Office No: D519',
+
+  ];
+  List<String> imagename = <String>[
+    'images/tevfikaytekin.png',
+    'images/nafizarica.png',
+    'images/cagataycatal.png',
+    'images/cemalokansakar.png',
+    'images/tarkanaydın.png',
+    'images/ovguozturk.png',
+    'images/selcukbaktır.png',
+    'images/ecegelal.png',
+    'images/gorkemkar.png',
+
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -141,7 +203,7 @@ List<String> Lecturer = <String>[
           ],
           menuBuilder: (BuildContext context, BuildBody buildBody) {
             return ListView.builder(
-                itemCount: 5,
+                itemCount: 9,
                 itemBuilder: (context, index) {
                   return ListTile(
 
@@ -160,10 +222,10 @@ List<String> Lecturer = <String>[
                 children: [
                   CircleAvatar(
                     radius: 120,
-                    backgroundImage: AssetImage('images/tevfikaytekin.png'),
+                    backgroundImage:AssetImage(imagename[index]),
                   ),
                   Text(
-                    'Tevfik Aytekin',
+                    namesbody[index],
                     style: TextStyle(
                       fontFamily: 'PT Serif',
                       fontSize: 25.0,
@@ -185,7 +247,7 @@ List<String> Lecturer = <String>[
                             color: Colors.black87,
                           ),
                           Text(
-                            'Email: tevfik.aytekin@eng.bau.edu.tr',
+                            mails[index],
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -212,7 +274,7 @@ List<String> Lecturer = <String>[
                             width: 10.0,
                           ),
                           Text(
-                            'Phone No : +90 212 381 0580',
+                            phoneno[index],
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -266,7 +328,7 @@ List<String> Lecturer = <String>[
                             width: 10.0,
                           ),
                           Text(
-                            'Office No : D529',
+                            officeno[index],
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -283,78 +345,7 @@ List<String> Lecturer = <String>[
     );
   }
 }
-//SizedBox(
-//                     height: 20,
-//                   ),
-//                   Image(
-//                     image: AssetImage('images/pic-6.png'),
-//                   )
 
-//class Search extends SearchDelegate {
-//   @override
-//   List<Widget> buildActions(BuildContext context) {
-//     return <Widget>[
-//       IconButton(
-//         icon: Icon(Icons.close),
-//         onPressed: () {
-//           query = "";
-//         },
-//       ),
-//     ];
-//   }
-//
-//   @override
-//   Widget buildLeading(BuildContext context) {
-//     return IconButton(
-//       icon: Icon(Icons.arrow_back),
-//       onPressed: () {
-//         Navigator.pop(context);
-//       },
-//     );
-//   }
-//
-//   String selectedResult = "";
-//
-//   @override
-//   Widget buildResults(BuildContext context) {
-//     return Container(
-//       child: Center(
-//         child: Text(selectedResult),
-//       ),
-//     );
-//   }
-//
-//   final List<String> listExample;
-//   Search(this.listExample);
-//
-//   List<String> recentList = ["Text 4", "Text 3"];
-//
-//   @override
-//   Widget buildSuggestions(BuildContext context) {
-//     List<String> suggestionList = [];
-//     query.isEmpty
-//         ? suggestionList = recentList //In the true case
-//         : suggestionList.addAll(listExample.where(
-//       // In the false case
-//           (element) => element.contains(query),
-//     ));
-//
-//     return ListView.builder(
-//       itemCount: suggestionList.length,
-//       itemBuilder: (context, index) {
-//         return ListTile(
-//           title: Text(
-//             suggestionList[index],
-//           ),
-//           leading: query.isEmpty ? Icon(Icons.access_time) : SizedBox(),
-//           onTap: (){
-//             selectedResult = suggestionList[index];
-//             showResults(context);
-//           },
-//         );
-//       },
-//     );
-//   }}
 
 class Majors extends StatefulWidget {
   @override
@@ -642,3 +633,4 @@ class _MajorsState extends State<Majors> {
     );
   }
 }
+
