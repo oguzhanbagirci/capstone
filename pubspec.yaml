@@ -11,18 +11,16 @@ environment:
 
 dependencies:
   menu_button: ^1.4.2+1
-  scalable_image: ^1.1.2
+
   pixel_perfect: ^1.1.0
-  convex_bottom_bar: ^3.0.0
-  salomon_bottom_bar: ^3.0.0
-  bottom_navy_bar: ^6.0.0
+
   auto_layout: ^1.0.4
   expandable_tree_menu: ^0.1.0-dev.5
   auto_animated: ^3.0.0
-
-
+  koukicons: ^2.0.3
 
   animated_stack: ^0.2.0
+
   flutter:
     sdk: flutter
 
@@ -41,6 +39,9 @@ flutter:
 
   assets:
     - images/
+    - images/cmp/
+
+
 
 
   fonts:

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scalable_image/scalable_image.dart';
+
 import 'dart:ui';
 
 
