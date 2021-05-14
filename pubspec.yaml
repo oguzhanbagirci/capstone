@@ -39,7 +39,7 @@ flutter:
 
   assets:
     - images/
-    - images/cmp/
+
 
 
 
@@ -48,7 +48,34 @@ flutter:
     - family: Gloria Hallelujah
       fonts:
         - asset: fonts/GloriaHallelujah-Regular.ttf
+
     - family: PT Serif
       fonts:
         - asset: fonts/PTSerif-Regular.ttf
 
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+    - family: Mukta
+      fonts:
+        - asset: fonts/Mukta-Regular.ttf
+
+    - family: Architects Daughter
+      fonts:
+        - asset: fonts/ArchitectsDaughter-Regular.ttf
+
+    - family: Girassol
+      fonts:
+        - asset: fonts/Girassol-Regular.ttf
+
+    - family: Permanent Marker
+      fonts:
+        - asset: fonts/PermanentMarker-Regular.ttf
+    - family: Shadows Into Light
+      fonts:
+        - asset: fonts/ShadowsIntoLight-Regular.ttf
+
+
+    - family: Indie Flower
+      fonts:
+        - asset: fonts/IndieFlower-Regular.ttf

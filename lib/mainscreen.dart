@@ -14,30 +14,31 @@ class MainScreen extends StatelessWidget {
               Container(
                 child: Text(
                   'Welcome to the BAU D building\n'
-                      '       How can I help you?',
-
+                  '       How can I help you?',
                   style: TextStyle(
                     fontSize: 50,
-                       fontFamily:'Gloria Hallelujah',
+                    fontFamily: 'Gloria Hallelujah',
                     color: Colors.cyan.shade600,
-
-
                   ),
                 ),
               ),
               SizedBox(
                 height: 40,
               ),
-
               Row(
                 children: [
                   Expanded(
                     child: Card(
-                      color: Colors.black87,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context)=> Majors() ));
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Majors()));
 
                           print('button1 pressed');
                         },
@@ -45,42 +46,32 @@ class MainScreen extends StatelessWidget {
                           'images/academicunits5.png',
                         ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      elevation: 5,
                     ),
                   ),
                   SizedBox(
                     width: 35,
                   ),
                   Expanded(
-
-
                     child: Card(
                       //color: Colors.black87,
 
-
                       child: ElevatedButton(
-
-
-                        onPressed: (){
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context)=> InfoPage() ));
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InfoPage()));
                           print('button1 pressed');
                         },
                         child: Image.asset(
                           'images/classrooms.png',
-
                         ),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
-
                       ),
                       color: Colors.black87,
-                      elevation: 5,
-
+                      //elevation: 5,
                     ),
                   ),
                 ],
@@ -89,7 +80,6 @@ class MainScreen extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }
