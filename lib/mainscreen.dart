@@ -31,13 +31,14 @@ class MainScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset('images/bau_logo.png', width: 300, height: 300,),
               Text(
                 'Welcome to the BAU D building\n'
                 '       How can I help you?',
                 style: TextStyle(
                   fontSize: 40,
-                  fontFamily: 'Gloria Hallelujah',
-                  color: Color(0xFF325aab),
+                  fontFamily: 'Architects Daughter' ,
+                  color: Color(0xFF01579b),
                 ),
               ),
 
@@ -75,7 +76,7 @@ class MainScreen extends StatelessWidget {
                             fontSize: 50,
                             fontFamily: 'Architects Daughter',
                             fontWeight: FontWeight.bold,
-                            color: Colors.cyan.shade600,
+                            color: Color(0xFF01579b),
                           ),
 
                         ),
@@ -86,13 +87,13 @@ class MainScreen extends StatelessWidget {
                           child: VerticalDivider(
                             thickness: 1.2,
 
-                            color: Colors.black87,
+                            color: Color(0xFF01579b),
                           ),
                         ),
                         Text('Academic Units',
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
-                            color: Colors.blueGrey.shade700,
+                            color: Color(0xFF01579b),
                             fontSize: 40,
                             letterSpacing: 2,
                             fontWeight: FontWeight.bold,
@@ -139,7 +140,7 @@ class MainScreen extends StatelessWidget {
                           fontSize: 50,
                           fontFamily: 'Architects Daughter',
                           fontWeight: FontWeight.bold,
-                          color: Colors.cyan.shade600,
+                          color: Color(0xFFffb74d),
                         ),
 
                       ),
@@ -149,13 +150,13 @@ class MainScreen extends StatelessWidget {
                           thickness: 1.5,
 
 
-                          color: Colors.black87,
+                          color: Color(0xFFffb74d) ,
                         ),
                       ),
                       Text('Administrative Units',
                         style: TextStyle(
                           fontFamily: 'Architects Daughter',
-                          color: Colors.orangeAccent.shade200,
+                          color: Color(0xFFffb74d),
                           fontSize: 40,
                           letterSpacing: 2,
                           fontWeight: FontWeight.bold,
@@ -214,7 +215,7 @@ class MainScreen extends StatelessWidget {
                             fontSize: 50,
                             fontFamily: 'Shadows Into Light',
                             fontWeight: FontWeight.bold,
-                            color: Colors.green.shade300,
+                            color: Color(0xFF4caf50),
                           ),
 
                         ),
@@ -225,13 +226,13 @@ class MainScreen extends StatelessWidget {
                           child: VerticalDivider(
                             thickness: 1.2,
 
-                            color: Colors.black87,
+                            color: Color(0xFF4caf50) ,
                           ),
                         ),
                         Text('Classes and Offices',
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
-                            color: Colors.green.shade600,
+                            color: Color(0xFF4caf50),
                             fontSize: 40,
                             letterSpacing: 2,
                             fontWeight: FontWeight.bold,
@@ -256,7 +257,7 @@ class MainScreen extends StatelessWidget {
 
               ),
 
-
+              Image.asset('images/voice.gif', width: 110, height: 110,),
 
 
 
