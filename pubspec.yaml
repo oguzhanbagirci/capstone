@@ -18,6 +18,8 @@ dependencies:
   expandable_tree_menu: ^0.1.0-dev.5
   auto_animated: ^3.0.0
   koukicons: ^2.0.3
+  animated_dialog_box: ^0.0.2
+
 
   animated_stack: ^0.2.0
 

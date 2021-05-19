@@ -133,22 +133,30 @@ class _MajorsState extends State<Majors> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('D Block Departments'),
+        backgroundColor: Colors.blue,
       ),
-      backgroundColor: Color(0xFF2286D3),
+      
+      backgroundColor: Colors.white,
       body: GridView.count(
+        childAspectRatio: 1.15,
+
         primary: false,
         padding: const EdgeInsets.all(4),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
         crossAxisCount: 3,
         children: [
           Card(
 
-            color: Colors.greenAccent.shade100,
+            color: Color(0xFFbbdefb),
 
 
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+            shape: RoundedRectangleBorder(
+
+              borderRadius: BorderRadius.circular(15),
+
+            ),
             child: InkWell(
               onTap: (){
                 Navigator.push(context,
@@ -163,22 +171,22 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
+                        //color: Colors.green,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(8),
+                        ), // green shaped
                       ),
                       child: Text(
-                          "Say 1 to Enter",
-                      style: TextStyle(
-                        fontSize: 15,
+                        "1",
+                        style: TextStyle(
+                          fontSize: 15,
 
 
 
-                      ),
+                        ),
                       ),
                     ),
                   ),
@@ -195,7 +203,7 @@ class _MajorsState extends State<Majors> {
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 18,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
 
@@ -214,10 +222,85 @@ class _MajorsState extends State<Majors> {
           ),
           Card(
 
-            color: Colors.red.shade200,
+            color: Color(0xFFffddc1),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AI()));
+
+
+              },
+              child: Stack(
+                children: <Widget>[
+
+                  Positioned(
+                    top: 0,
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                      decoration: BoxDecoration(
+                        //color: Colors.green,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(8),
+                          ) // green shaped
+                      ),
+                      child: Text(
+                        "Say 9 to Enter",
+                        style: TextStyle(
+                          fontSize: 15,
+
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsNetwork2(height: 115),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'AI Engineering',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            color: Colors.teal.shade900,
+                            fontSize: 19,
+                            letterSpacing: 2.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+          Card(
+
+            color: Color(0xFFe1bee7),
+
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
+
+            ),
             child: InkWell(
               onTap: (){
                 Navigator.push(context,
@@ -232,16 +315,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                        //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 2 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -257,82 +340,20 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsChargingBattery(height: 120),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsChargingBattery(height: 105),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           'Energy Systems\n'
                               '   Engineering',
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
-                            letterSpacing: 2.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
-          Card(
-
-            color: Color(0xFFDBE0B7),
-
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Biomed()));
-
-
-              },
-              child: Stack(
-                children: <Widget>[
-
-                  Positioned(
-                    top: 0,
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
-                      ),
-                      child: Text(
-                        "Say 1 to Enter",
-                        style: TextStyle(
-                          fontSize: 15,
-
-
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        KoukiconsBiomass(height: 120),
-                        Text(
-                          ' Biomedical\n'
-                              ' Engineering',
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 18,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -349,144 +370,12 @@ class _MajorsState extends State<Majors> {
             ),
           ),
 
+
+
+
           Card(
 
-            color: Colors.brown.shade100,
-
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Mechatronics()));
-
-
-              },
-              child: Stack(
-                children: <Widget>[
-
-                  Positioned(
-                    top: 0,
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
-                      ),
-                      child: Text(
-                        "Say 1 to Enter",
-                        style: TextStyle(
-                          fontSize: 15,
-
-
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        KoukiconsServices(height: 120),
-                        Text(
-                          'Mechatronics\n'
-                              ' Engineering',
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.teal.shade900,
-                            fontSize: 22.0,
-                            letterSpacing: 2.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
-          Card(
-
-            color: Color(0xFF89C8CB),
-
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Industrial()));
-
-
-              },
-              child: Stack(
-                children: <Widget>[
-
-                  Positioned(
-                    top: 0,
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
-                      ),
-                      child: Text(
-                        "Say 1 to Enter",
-                        style: TextStyle(
-                          fontSize: 15,
-
-
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        KoukiconsDeployment(height: 120),
-                        Text(
-                          '  Industrial\n Engineering',
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.teal.shade900,
-                            fontSize: 22.0,
-                            letterSpacing: 2.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
-          Card(
-
-            color: Color(0xFFB7F4B6),
+            color: Color(0xFFbbdefb),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -504,16 +393,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                        //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 6 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -529,8 +418,8 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsFlashOn(height: 120,
-                          color: Colors.red,
+                        KoukiconsFlashOn(height: 115,
+                          color: Colors.yellow,
                         ),
                         Text(
                           'Electric&Electronic\n'
@@ -554,10 +443,9 @@ class _MajorsState extends State<Majors> {
               ),
             ),
           ),
-
           Card(
 
-            color: Colors.orangeAccent.shade100,
+            color: Color(0xFFffddc1),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -575,16 +463,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                        //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 7 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -600,7 +488,10 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsCalc2(height: 120),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsCalc2(height: 110),
                         SizedBox(
                           height: 10,
                         ),
@@ -609,7 +500,7 @@ class _MajorsState extends State<Majors> {
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 20.0,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -627,7 +518,219 @@ class _MajorsState extends State<Majors> {
           ),
           Card(
 
-            color: Color(0xFFEE85B3),
+            color: Color(0xFFe1bee7),
+
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),),
+
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Biomed()));
+
+
+              },
+              child: Stack(
+                children: <Widget>[
+
+                  Positioned(
+                    top: 0,
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                      decoration: BoxDecoration(
+                          //color: Colors.green,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(8),
+                          ) // green shaped
+                      ),
+                      child: Text(
+                        "Say 3 to Enter",
+                        style: TextStyle(
+                          fontSize: 15,
+
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsBiomass(height: 110),
+                        Text(
+                          ' Biomedical\n'
+                              ' Engineering',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            color: Colors.teal.shade900,
+                            fontSize: 19,
+                            letterSpacing: 2.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+
+
+
+
+
+          Card(
+
+            color: Color(0xFFbbdefb),
+
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Industrial()));
+
+
+              },
+              child: Stack(
+                children: <Widget>[
+
+                  Positioned(
+                    top: 0,
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                      decoration: BoxDecoration(
+                        //color: Colors.green,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(8),
+                          ) // green shaped
+                      ),
+                      child: Text(
+                        "Say 5 to Enter",
+                        style: TextStyle(
+                          fontSize: 15,
+
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        KoukiconsDeployment(height: 110),
+                        Text(
+                          '  Industrial\n Engineering',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            color: Colors.teal.shade900,
+                            fontSize: 19.0,
+                            letterSpacing: 2.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+          Card(
+
+            color: Color(0xFFffddc1),
+
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Mechatronics()));
+
+
+              },
+              child: Stack(
+                children: <Widget>[
+
+                  Positioned(
+                    top: 0,
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                      decoration: BoxDecoration(
+                        //color: Colors.green,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(8),
+                          ) // green shaped
+                      ),
+                      child: Text(
+                        "Say 4 to Enter",
+                        style: TextStyle(
+                          fontSize: 15,
+
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        KoukiconsServices(height: 110),
+                        Text(
+                          'Mechatronics\n'
+                              ' Engineering',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            color: Colors.teal.shade900,
+                            fontSize: 19.0,
+                            letterSpacing: 2.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+          Card(
+
+            color: Color(0xFFe1bee7),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -645,16 +748,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 8 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -670,14 +773,17 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsInspection(height: 120),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsInspection(height: 110),
                         Text(
                           ' Management\n'
                               ' Engineering',
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 19.0,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -692,78 +798,18 @@ class _MajorsState extends State<Majors> {
                 ],
               ),
             ),
-          ),
-          Card(
+          ),//management
 
-            color: Color(0xFF51BBE8),
-
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AI()));
+          //IE//mech
 
 
-              },
-              child: Stack(
-                children: <Widget>[
-
-                  Positioned(
-                    top: 0,
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
-                      ),
-                      child: Text(
-                        "Say 1 to Enter",
-                        style: TextStyle(
-                          fontSize: 15,
+          //math
 
 
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        KoukiconsNetwork2(height: 120),
-                        Text(
-                          'AI Engineering',
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.teal.shade900,
-                            fontSize: 22.0,
-                            letterSpacing: 2.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
 
           Card(
 
-            color: Color(0xFFB5E1F4),
+            color: Color(0xFFbbdefb),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -781,16 +827,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 10 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -806,7 +852,10 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsMore(height: 80),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        KoukiconsMore(height: 70),
                         SizedBox(
                           height: 20,
                         ),
@@ -816,7 +865,7 @@ class _MajorsState extends State<Majors> {
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 20.0,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -834,81 +883,7 @@ class _MajorsState extends State<Majors> {
           ),
           Card(
 
-            color: Color(0xFFFBC0E2),
-
-
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MBG()));
-
-
-              },
-              child: Stack(
-                children: <Widget>[
-
-                  Positioned(
-                    top: 0,
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ) // green shaped
-                      ),
-                      child: Text(
-                        "Say 1 to Enter",
-                        style: TextStyle(
-                          fontSize: 15,
-
-
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        KoukiconsBiotech(
-                          height: 120,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          ' Molecular Biology\n'
-                              '     & Genetics ',
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.teal.shade900,
-                            fontSize: 20.0,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
-          Card(
-
-            color: Colors.limeAccent.shade100,
+            color: Color(0xFFffddc1),
 
 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -926,16 +901,16 @@ class _MajorsState extends State<Majors> {
                     top: 0,
 
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                        //color: Colors.green,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
+                            topLeft: Radius.circular(15),
                             bottomRight: Radius.circular(8),
                           ) // green shaped
                       ),
                       child: Text(
-                        "Say 1 to Enter",
+                        "Say 12 to Enter",
                         style: TextStyle(
                           fontSize: 15,
 
@@ -951,17 +926,21 @@ class _MajorsState extends State<Majors> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KoukiconsBlueprint(height: 120),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
+                        KoukiconsBlueprint(height: 110),
+                        SizedBox(
+                          height: 5,
+                        ),
+
                         Text(
-                          '      Civil\n'
+                          '     Civil\n'
                               '  Engineering',
                           style: TextStyle(
                             fontFamily: 'Architects Daughter',
                             color: Colors.teal.shade900,
-                            fontSize: 22.0,
+                            fontSize: 20.0,
                             letterSpacing: 2.5,
                             fontWeight: FontWeight.bold,
                           ),
@@ -977,6 +956,84 @@ class _MajorsState extends State<Majors> {
               ),
             ),
           ),
+          Card(
+
+            color: Color(0xFFe1bee7),
+
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MBG()));
+
+
+              },
+              child: Stack(
+                children: <Widget>[
+
+                  Positioned(
+                    top: 0,
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                      decoration: BoxDecoration(
+                        //color: Colors.green,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(8),
+                          ) // green shaped
+                      ),
+                      child: Text(
+                        "Say 11 to Enter",
+                        style: TextStyle(
+                          fontSize: 15,
+
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        KoukiconsBiotech(
+                          height: 110,
+                          color: Color(0xFFe91e63),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          ' Molecular Biology\n'
+                              '     & Genetics ',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            color: Colors.teal.shade900,
+                            fontSize: 18.0,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),//soft
+          //civil
           //gg
 
         ],

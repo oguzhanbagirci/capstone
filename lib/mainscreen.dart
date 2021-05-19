@@ -12,6 +12,11 @@ import 'package:koukicons/signpost.dart';
 import 'package:koukicons/roadmap.dart';
 import 'package:koukicons/printer.dart';
 import 'package:koukicons/openFolder2.dart';
+import 'package:animated_dialog_box/animated_dialog_box.dart';
+import 'package:koukicons/info.dart';
+
+
+
 
 
 
@@ -19,6 +24,7 @@ import 'package:koukicons/openFolder2.dart';
 
 
 class MainScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -213,7 +219,7 @@ class MainScreen extends StatelessWidget {
                         Text(' 3',
                           style: TextStyle(
                             fontSize: 50,
-                            fontFamily: 'Shadows Into Light',
+                            fontFamily: 'Architects Daughter',
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF4caf50),
                           ),
@@ -257,14 +263,87 @@ class MainScreen extends StatelessWidget {
 
               ),
 
-              Image.asset('images/voice.gif', width: 110, height: 110,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+
+
+                  Image.asset('images/voice.gif', width: 110, height: 110,),
+                  FlatButton(
+                    onPressed: () async {
+                      await animated_dialog_box.showRotatedAlert(
+
+                          title: Center(child: Text("Guideline")), // IF YOU WANT TO ADD
+                          context: context,
+                          firstButton: MaterialButton(
+                            // FIRST BUTTON IS REQUIRED
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            color: Colors.white,
+                            child: Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          secondButton: MaterialButton(
+                            // OPTIONAL BUTTON
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            color: Colors.white,
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          icon: Icon(Icons.info_outline,color: Colors.red,), // IF YOU WANT TO ADD ICON
+                          yourWidget: Expanded(
+                            child: Image.asset(
+                              'images/guideline.png',
+                              height: 600,
+                              width: 500,
+
+
+                            ),
+                          ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                            'Say "Help" to open\n'
+                                '  the Guideline',
+                          style: TextStyle(
+                            fontFamily: 'Architects Daughter',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600
+                          ),
+
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        KoukiconsInfo(
+                          height: 50,
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
 
 
 
             ],
           ),
         ),
+
       ),
+
     );
+
   }
 }
+
