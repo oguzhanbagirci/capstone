@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.capstonefinal1">
    <application
-        android:label="capstonefinal1"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Kiosk App"
+        android:icon="@mipmap/bau_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
