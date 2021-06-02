@@ -10,18 +10,15 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  menu_button: ^1.4.2+1
-
-  pixel_perfect: ^1.1.0
 
   auto_layout: ^1.0.4
-  expandable_tree_menu: ^0.1.0-dev.5
+
   auto_animated: ^3.0.0
   koukicons: ^2.0.3
   animated_dialog_box: ^0.0.2
-
-
   animated_stack: ^0.2.0
+  animated_text_kit: ^2.0.0
+  path_provider: ^2.0.2
 
   flutter:
     sdk: flutter
@@ -41,6 +38,8 @@ flutter:
 
   assets:
     - images/
+
+    - assets/ml.txt
 
 
 

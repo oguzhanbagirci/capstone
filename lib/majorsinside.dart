@@ -87,7 +87,7 @@ class ComputerEng extends StatelessWidget {
 
             title: Center(child: Text("Computer Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -274,7 +274,7 @@ class ComputerEng extends StatelessWidget {
                               width: 10.0,
                             ),
                             Text(
-                              'Fax No : +90 212 381 0550',
+                              'Fax No: +90 212 381 0550',
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 20.0,
@@ -404,7 +404,7 @@ class Electric extends StatelessWidget {
 
           title: Center(child: Text("Electiric&Electronic Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -589,7 +589,7 @@ class Electric extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -691,7 +691,7 @@ class CivilEng extends StatelessWidget {
 
           title: Center(child: Text("Civil Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -875,7 +875,7 @@ class CivilEng extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -978,7 +978,7 @@ class Mechatronics extends StatelessWidget {
 
           title: Center(child: Text("Mechatronics Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -1162,7 +1162,7 @@ class Mechatronics extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -1273,7 +1273,7 @@ class MBG extends StatelessWidget {
 
           title: Center(child: Text("Molecular Biology&Genetics Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -1456,7 +1456,7 @@ class MBG extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -1567,7 +1567,7 @@ class Math extends StatelessWidget {
 
           title: Center(child: Text("Mathematics Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -1751,7 +1751,7 @@ class Math extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -1866,7 +1866,7 @@ class Energy extends StatelessWidget {
 
           title: Center(child: Text("Energy Systems Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -2050,7 +2050,7 @@ class Energy extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -2161,7 +2161,7 @@ class Software extends StatelessWidget {
 
           title: Center(child: Text("Software Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -2345,7 +2345,7 @@ class Software extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -2456,7 +2456,7 @@ class Industrial extends StatelessWidget {
 
           title: Center(child: Text("Industrial Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -2640,7 +2640,7 @@ class Industrial extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -2752,7 +2752,7 @@ class Management extends StatelessWidget {
 
           title: Center(child: Text("Management Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -2936,7 +2936,7 @@ class Management extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -3048,7 +3048,7 @@ class Biomed extends StatelessWidget {
 
           title: Center(child: Text("Biomedical Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -3232,7 +3232,7 @@ class Biomed extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
@@ -3350,7 +3350,7 @@ class AI extends StatelessWidget {
 
           title: Center(child: Text("AI Engineering Academic Staff",
             style: TextStyle(
-              fontFamily: 'Indie Flower',
+              fontFamily: 'Architects Daughter',
               fontWeight: FontWeight.bold,
               letterSpacing: 2.5,
               fontSize: 25,
@@ -3533,7 +3533,7 @@ class AI extends StatelessWidget {
                             width: 10.0,
                           ),
                           Text(
-                            'Fax No : +90 212 381 0550',
+                            'Fax No: +90 212 381 0550',
                             style: TextStyle(
                               color: Colors.black87,
                               fontSize: 20.0,
