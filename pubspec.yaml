@@ -19,6 +19,10 @@ dependencies:
   animated_stack: ^0.2.0
   animated_text_kit: ^2.0.0
   path_provider: ^2.0.2
+  redis: ^1.4.0
+  dartis: ^0.5.0
+  getwidget: ^2.0.2
+
 
   flutter:
     sdk: flutter
