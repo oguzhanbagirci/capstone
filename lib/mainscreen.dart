@@ -33,11 +33,67 @@ class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
+class Guideline extends StatefulWidget {
+  const Guideline({Key key}) : super(key: key);
+
+  @override
+  _GuidelineState createState() => _GuidelineState();
+}
+
+class _GuidelineState extends State<Guideline> {
+  void annen() async {
+    final broker =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await broker.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+    // Outputs the data received from the server.
+    broker.stream.listen((event) {
+      if (event is MessageEvent) {
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          broker.punsubscribe();
+        }
+      } else {
+        print(event);
+      }
+    }, onError: print, onDone: () => exit(0));
+
+    // Subscribes the client to some channels.
+    broker.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Expanded(
+          child: Image.asset('images/guideline.png'),
+        ),
+      ),
+    );
+  }
+}
+
 
 class _MainScreenState extends State<MainScreen> {
   // ignore: close_sinks
 
-  Future<String> annen() async {
+  void annen() async {
     final broker =
         await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
 
@@ -54,9 +110,24 @@ class _MainScreenState extends State<MainScreen> {
     broker.stream.listen((event) {
       if (event is MessageEvent) {
         print(event.message);
-        if (event.message == '7') {
+        if (event.message == '1') {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Majors()));
+          broker.punsubscribe();
+        }
+        else if (event.message == '2') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AdminisUnit()));
+          broker.punsubscribe();
+        }
+        else if (event.message == '3') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Mapinfs()));
+          broker.punsubscribe();
+        }
+        else if (event.message == 'help') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Guideline())); //guideline fonksiyonu eklenecek
           broker.punsubscribe();
         }
       } else {
@@ -285,60 +356,28 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Image.asset(
-                  'images/voice.gif',
+                  'images/flow.gif',
                   width: 110,
                   height: 110,
                 ),
-                FlatButton(
-                  onPressed: () async {
-                    await animated_dialog_box.showRotatedAlert(
-                      title: Center(
-                          child: Text("Guideline")), // IF YOU WANT TO ADD
-                      context: context,
-                      firstButton: MaterialButton(
-                        // FIRST BUTTON IS REQUIRED
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        color: Colors.white,
-                        child: Text('Ok'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      secondButton: MaterialButton(
-                        // OPTIONAL BUTTON
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        color: Colors.white,
-                        child: Text('Cancel'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      icon: Icon(
-                        Icons.info_outline,
-                        color: Colors.red,
-                      ), // IF YOU WANT TO ADD ICON
-                      yourWidget: Expanded(
-                        child: Image.asset(
-                          'images/guideline.png',
-                          height: 600,
-                          width: 500,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Row(
+                Row(
                     children: [
-                      Text(
-                        'Say "Help" to open\n'
-                            '  the Guideline',
-                        style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600),
+                      InkWell(
+
+                        child: Text(
+                          'Say "Help" to open\n'
+                              '  the Guideline',
+                          style: TextStyle(
+                              fontFamily: 'Architects Daughter',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        onTap: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Guideline()));
+
+
+                        },
                       ),
                       SizedBox(
                         width: 15,
@@ -348,7 +387,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ],
                   ),
-                ),
+
               ],
             ),
           ],

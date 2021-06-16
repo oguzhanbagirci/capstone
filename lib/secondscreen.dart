@@ -212,78 +212,63 @@ class _MajorsState extends State<Majors> {
       if(event is MessageEvent){
 
         print(event.message);
-        if(event.message == '1'){
+        if (event.message == '1') {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => ComputerEng()));
           killer.punsubscribe();
-
-        }
-        else if(event.message == '2'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Electric()));
-          killer.punsubscribe();
-
-        }
-
-        else if(event.message == '3'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => CivilEng()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '4'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Mechatronics()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '5'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MBG()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '6'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Math()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '7'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Energy()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '8'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Software()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '9'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Industrial()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '10'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Management()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '11'){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Biomed()));
-          killer.punsubscribe();
-
-        }
-        else if(event.message == '12'){
+        } else if (event.message == '2') {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AI()));
           killer.punsubscribe();
-
+        } else if (event.message == '3') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Energy()));
+          killer.punsubscribe();
+        } else if (event.message == '4') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Electric()));
+          killer.punsubscribe();
+        } else if (event.message == '5') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Math()));
+          killer.punsubscribe();
+        } else if (event.message == '6') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Biomed()));
+          killer.punsubscribe();
+        } else if (event.message == '7') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Industrial()));
+          killer.punsubscribe();
+        } else if (event.message == '8') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Mechatronics()));
+          killer.punsubscribe();
+        } else if (event.message == '9') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Management()));
+          killer.punsubscribe();
+        } else if (event.message == '10') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Software()));
+          killer.punsubscribe();
+        } else if (event.message == '11') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CivilEng()));
+          killer.punsubscribe();
+        } else if (event.message == '12') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MBG()));
+          killer.punsubscribe();
+        } else if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+        else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
         }
 
 
@@ -354,8 +339,8 @@ class _MajorsState extends State<Majors> {
                     },
                     text: [
                       " Say the number on the top left to enter",
-                      " Say the number on the top left to enter",
-                      " Say the number on the top left to enter",
+                      " Say the number on the top left to  enter",
+                      " Say the number on the top left to  enter",
                     ],
                     textStyle: TextStyle(
                       fontSize: 35.0,
@@ -415,59 +400,65 @@ class _MajorsState extends State<Majors> {
 
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      width: 3,
+                      width: 3.5,
                       color: Color(0xFF003c8f),
                     ),
 
                     borderRadius: BorderRadius.circular(15),
 
                   ),
-                  child: Stack(
-                    children: <Widget>[
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ComputerEng()));
+                    },
+                    child: Stack(
+                      children: <Widget>[
 
-                      Positioned(
-                        top: 7,
-                        left: 10,
-
-
-                        child: Text(
-                          "1",
-                          style: TextStyle(
-                            fontSize: 20,
-
+                        Positioned(
+                          top: 7,
+                          left: 10,
 
 
+                          child: Text(
+                            "1",
+                            style: TextStyle(
+                              fontSize: 20,
+
+
+
+                            ),
                           ),
                         ),
-                      ),
 
-                      Align(
-                        alignment: AlignmentDirectional.bottomCenter,
+                        Align(
+                          alignment: AlignmentDirectional.bottomCenter,
 
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            KoukiconsElectronics(height: 120),
-                            Text(
-                              '  Computer\n'
-                                  ' Engineering',
-                              style: TextStyle(
-                                fontFamily: 'Architects Daughter',
-                                color: Colors.teal.shade900,
-                                fontSize: 18,
-                                letterSpacing: 2.5,
-                                fontWeight: FontWeight.bold,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              KoukiconsElectronics(height: 120),
+                              Text(
+                                '  Computer\n'
+                                    ' Engineering',
+                                style: TextStyle(
+                                  fontFamily: 'Architects Daughter',
+                                  color: Colors.teal.shade900,
+                                  fontSize: 18,
+                                  letterSpacing: 2.5,
+                                  fontWeight: FontWeight.bold,
 
+                                ),
                               ),
-                            ),
 
-                          ],
+                            ],
+                          ),
+
                         ),
 
-                      ),
 
-
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Card(
@@ -478,7 +469,7 @@ class _MajorsState extends State<Majors> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                     side: BorderSide(
-                      width: 3,
+                      width: 3.5,
                       color: Color(0xFF003c8f),
                     ),
 
@@ -552,7 +543,7 @@ class _MajorsState extends State<Majors> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                     side: BorderSide(
-                      width: 3,
+                      width: 3.5,
                       color: Color(0xFF003c8f),
                     ),
 
@@ -626,7 +617,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFbbdefb),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -688,7 +687,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFffddc1),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -753,7 +760,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFe1bee7),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
 
                   child: InkWell(
                     onTap: (){
@@ -819,7 +834,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFbbdefb),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape:RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -878,7 +901,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFffddc1),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -938,7 +969,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFe1bee7),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -1002,7 +1041,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFbbdefb),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -1068,7 +1115,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFffddc1),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,
@@ -1135,7 +1190,15 @@ class _MajorsState extends State<Majors> {
                   color: Color(0xFFe1bee7),
 
 
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape:RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 3.5,
+                      color: Color(0xFF003c8f),
+                    ),
+
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context,

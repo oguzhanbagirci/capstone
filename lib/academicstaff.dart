@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:capstonefinal1/academicstaff.dart';
 import 'package:capstonefinal1/mainscreen.dart';
 import 'package:capstonefinal1/mappage.dart';
+import 'package:capstonefinal1/secondscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -13,9 +14,79 @@ import 'dart:ui';
 import 'mappage.dart';
 
 import 'package:flutter/widgets.dart';
+import 'dart:io' show exit, ProcessSignal;
+import 'package:dartis/dartis.dart';
 
-class ComputerEng extends StatelessWidget {
+import 'package:dartis/dartis.dart' as redis show PubSub;
+
+class ComputerEng extends StatefulWidget {
   ComputerEng({Key key}) : super(key: key);
+
+  @override
+  _ComputerEngState createState() => _ComputerEngState();
+}
+
+class _ComputerEngState extends State<ComputerEng> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   Card buildKey1(
       {String name,
@@ -32,12 +103,13 @@ class ComputerEng extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 90,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -46,100 +118,137 @@ class ComputerEng extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                  color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 39,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+           Container(
+             width: 320,
+             child: Column(
+               children: [
+                 SizedBox(
+                   height: 10,
+                 ),
+                 Text(
+                   name,
+                   style: TextStyle(
+                     fontFamily: 'Architects Daughter',
+                     color: Color(0xFF004c8c),
+                     fontSize: 30,
+                     letterSpacing: 2,
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+
+                 Text(
+                   name2,
+                   style: TextStyle(
+                     fontFamily: 'Architects Daughter',
+                     color: Color(0xFF004c8c),
+                     fontSize: 15,
+                     letterSpacing: 2,
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+               ],
+             ),
+           ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+
+
+
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  List<String> Lecturer = <String>[
+    'Assoc. Prof. & Department Chair',
+    'Prof.',
+    'Prof. ',
+    'Assist Prof. ',
+    'Assist Prof. ',
+    'Assist Prof. ',
+    'Assist Prof. ',
+    'Assist Prof. ',
+    'Assist Prof. ',
+  ];
+
+  List<String> namesbody = <String>[
+    'Tevfik AYTEKİN',
+    'Nafiz ARICA',
+    'Çağatay ÇATAL',
+    'Cemal Okan ŞAKAR',
+    'Tarkan AYDIN',
+    'Övgü ÖZTÜRK',
+    'Selçuk BAKTIR',
+    'Ece Gelal SOYAK',
+    'Görkem KAR',
+  ];
 
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/tevfikaytekin/tr/images/Bitmap.jpg',
@@ -152,52 +261,71 @@ class ComputerEng extends StatelessWidget {
     'https://akademik.bahcesehir.edu.tr/web/ecegelalsoyak/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/gorkemkar/tr/images/Bitmap.jpg',
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0580',
-    '                 Phone No: +90 212 381 5800',
-    '      Phone No: +90 212 381 0000',
-    ' Phone No: +90 212 381 0571',
-    '           Phone No: +90 212 381 0318',
-    '           Phone No: +90 212 381 5688',
-    '       Phone No: +90 212 381 5676',
-    '  Phone No: +90 212 381 0000',
-    '            Phone No: +90 212 381 0569',
+    'Phone No: +90 212 381 5800',
+    'Phone No: +90 212 381 0000',
+    'Phone No: +90 212 381 0571',
+    'Phone No: +90 212 381 0318',
+    'Phone No: +90 212 381 5688',
+    'Phone No: +90 212 381 5676',
+    'Phone No: +90 212 381 0000',
+    'Phone No: +90 212 381 0569',
   ];
+
   List<String> officeno = <String>[
     'Office No: D529',
-    '                Office No: D515',
-    '    Office No: D411',
+    'Office No: D515',
+    'Office No: D411',
     'Office No: D413',
-    '          Office No: D413',
-    '           Office No: D309',
-    '       Office No: D519',
-    '  Office No: D312',
-    '              Office No: D519',
+    'Office No: D413',
+    'Office No: D309',
+    'Office No: D519',
+    'Office No: D312',
+    'Office No: D519',
   ];
 
   List<String> mails = <String>[
-    '  Email: tevfik.aytekin@eng.bau.edu.tr',
-    '               Email: nafiz.arica@eng.bau.edu.tr',
-    '        Email: cagatay.catal@eng.bau.edu.tr',
-    '  Email: okan.sakar@eng.bau.edu.tr',
-    '             Email: tarkan.aydin@eng.bau.edu.tr',
-    '            Email: ovgu.ozturk@eng.bau.edu.tr',
-    '          Email: selcuk.baktir@eng.bau.edu.tr',
-    '       Email: ece.gelalsoyak@eng.bau.edu.tr',
-    '              Email: gorkem.kar@eng.bau.edu.tr',
+    'Email: tevfik.aytekin@eng.bau.edu.tr',
+    'Email: nafiz.arica@eng.bau.edu.tr',
+    'Email: cagatay.catal@eng.bau.edu.tr',
+    'Email: okan.sakar@eng.bau.edu.tr',
+    'Email: tarkan.aydin@eng.bau.edu.tr',
+    'Email: ovgu.ozturk@eng.bau.edu.tr',
+    'Email: selcuk.baktir@eng.bau.edu.tr',
+    'Email: ece.gelalsoyak@eng.bau.edu.tr',
+    'Email: gorkem.kar@eng.bau.edu.tr',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+
         children: [
           SizedBox(
-            height: 40,
+            height: 50,
+
           ),
+          Text(
+            'Computer Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+
+
           buildKey1(
-              name: 'Tevfik Aytekin',
-              name2: 'Assoc. Prof. & Department Chair',
+              name: namesbody[0],
+              name2: Lecturer[0],
               photo: imagename[0],
               number: 1,
               phone: phoneno[0],
@@ -207,8 +335,8 @@ class ComputerEng extends StatelessWidget {
             height: 10,
           ),
           buildKey1(
-              name: '  Nafiz ARICA',
-              name2: 'Prof.',
+              name: namesbody[1],
+              name2: Lecturer[1],
               photo: imagename[1],
               number: 1,
               phone: phoneno[1],
@@ -218,8 +346,8 @@ class ComputerEng extends StatelessWidget {
             height: 10,
           ),
           buildKey1(
-              name: 'Çağatay ÇATAL',
-              name2: 'Prof.',
+              name: namesbody[2],
+              name2: Lecturer[2],
               photo: imagename[2],
               number: 1,
               phone: phoneno[2],
@@ -229,8 +357,8 @@ class ComputerEng extends StatelessWidget {
             height: 10,
           ),
           buildKey1(
-              name: 'Cemal Okan ŞAKAR',
-              name2: 'Assist Prof.',
+              name: namesbody[3],
+              name2: Lecturer[3],
               photo: imagename[3],
               number: 1,
               phone: phoneno[3],
@@ -240,8 +368,8 @@ class ComputerEng extends StatelessWidget {
             height: 10,
           ),
           buildKey1(
-              name: 'Tarkan AYDIN',
-              name2: 'Assist Prof.',
+              name: namesbody[4],
+              name2: Lecturer[4],
               photo: imagename[4],
               number: 1,
               phone: phoneno[4],
@@ -251,8 +379,8 @@ class ComputerEng extends StatelessWidget {
             height: 10,
           ),
           buildKey1(
-              name: 'Övgü ÖZTÜRK',
-              name2: 'Assist Prof.',
+              name: namesbody[5],
+              name2: Lecturer[5],
               photo: imagename[5],
               number: 1,
               phone: phoneno[5],
@@ -261,44 +389,93 @@ class ComputerEng extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
+
+
           buildKey1(
-              name: 'Selçuk BAKTIR',
-              name2: 'Assist Prof.',
-              photo: imagename[6],
-              number: 1,
-              phone: phoneno[6],
-              office: officeno[6],
-              email: mails[6]),
-          SizedBox(
-            height: 10,
-          ),
-          buildKey1(
-              name: 'Ece Gelal SOYAK',
-              name2: 'Assist Prof.',
+              name: namesbody[7],
+              name2: Lecturer[7],
               photo: imagename[7],
               number: 1,
               phone: phoneno[7],
               office: officeno[7],
               email: mails[7]),
-          SizedBox(
-            height: 10,
-          ),
-          buildKey1(
-              name: 'Görkem KAR',
-              name2: 'Assist Prof.',
-              photo: imagename[8],
-              number: 1,
-              phone: phoneno[8],
-              office: officeno[8],
-              email: mails[8]),
+
+
+
         ],
       ),
     );
   }
 }
 
-class Electric extends StatelessWidget {
+class Electric extends StatefulWidget {
   Electric({Key key}) : super(key: key);
+
+  @override
+  _ElectricState createState() => _ElectricState();
+}
+
+class _ElectricState extends State<Electric> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. ',
@@ -311,7 +488,7 @@ class Electric extends StatelessWidget {
     'Assoc. Prof. ',
     'Assist Prof.',
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Recep DİMİTROV',
     'Alkan SOYSAL',
@@ -323,6 +500,7 @@ class Electric extends StatelessWidget {
     'Saeid KARAMZADEH',
     'Cavit Fatih KÜÇÜKTEZCAN',
   ];
+
   List<String> mails = <String>[
     '  Email: recep.dimitrov@eng.bau.edu.tr',
     '  Email: alkan.soysal@eng.bau.edu.tr',
@@ -334,6 +512,7 @@ class Electric extends StatelessWidget {
     '  Email: saeid.karamzadeh@eng.bau.edu.tr',
     '  Email: cavitfatih.kucuktezcan@eng.bau.edu.tr',
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 5645',
     'Phone No: +90 212 381 0892',
@@ -345,6 +524,7 @@ class Electric extends StatelessWidget {
     'Phone No: +90 212 381 05 49',
     'Phone No: +90 212 381 5702',
   ];
+
   List<String> officeno = <String>[
     'Office No: D415',
     'Office No: D530',
@@ -356,6 +536,7 @@ class Electric extends StatelessWidget {
     'Office No: D307',
     'Office No: D522',
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/recepdimitrov/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/alkansoysal/tr/images/Bitmap.jpg',
@@ -368,1045 +549,318 @@ class Electric extends StatelessWidget {
     'https://akademik.bahcesehir.edu.tr/web/fatihkucuktezcan/tr/images/Bitmap.jpg',
   ];
 
+  Card buildKey1(
+      {String name,
+        String name2,
+        String photo,
+        int number,
+        String phone,
+        String office,
+        String email}) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Color(0xFF4ba3c7),
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        height: 90,
+        width: 800,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              '$number',
+              style: TextStyle(
+                fontSize: 50,
+                fontFamily: 'Architects Daughter',
+                color: Color(0xFF004c8c),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              child: VerticalDivider(
+                thickness: 2,
+                color: Color(0xFF004c8c),
+              ),
+            ),
+            CircleAvatar(
+              backgroundImage: NetworkImage(photo),
+              radius: 39,
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
+                      fontSize: 25,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
+                      fontSize: 15,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+
         children: [
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[0]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          SizedBox(
+            height: 50,
+
+          ),
+          Text(
+            'Electric&Electronic Engineering\n'
+                '   '
+                '     Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
             ),
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[1]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[1],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[1],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[1],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[2]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[2],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 23,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[2],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[2],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+
+
+          buildKey1(
+              name: namesbody[0],
+              name2: Lecturer[0],
+              photo: imagename[0],
+              number: 1,
+              phone: phoneno[0],
+              office: officeno[0],
+              email: mails[0]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[3]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[3],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[3],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[3],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          buildKey1(
+              name: namesbody[1],
+              name2: Lecturer[1],
+              photo: imagename[1],
+              number: 1,
+              phone: phoneno[1],
+              office: officeno[1],
+              email: mails[1]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[4]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[4],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[4],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[4],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          buildKey1(
+              name: namesbody[2],
+              name2: Lecturer[2],
+              photo: imagename[2],
+              number: 1,
+              phone: phoneno[2],
+              office: officeno[2],
+              email: mails[2]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[5]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[5],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[5],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[5],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          buildKey1(
+              name: namesbody[3],
+              name2: Lecturer[3],
+              photo: imagename[3],
+              number: 1,
+              phone: phoneno[3],
+              office: officeno[3],
+              email: mails[3]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[6]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[6],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[6],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[6],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          buildKey1(
+              name: namesbody[6],
+              name2: Lecturer[6],
+              photo: imagename[6],
+              number: 1,
+              phone: phoneno[6],
+              office: officeno[6],
+              email: mails[6]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[7]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[7],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[7],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[7],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          buildKey1(
+              name: namesbody[5],
+              name2: Lecturer[5],
+              photo: imagename[5],
+              number: 1,
+              phone: phoneno[5],
+              office: officeno[5],
+              email: mails[5]),
+          SizedBox(
+            height: 10,
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              height: 80,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(imagename[8]),
-                    radius: 30,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        namesbody[8],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 30,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        Lecturer[0],
-                        style: TextStyle(
-                          fontFamily: 'Architects Daughter',
-                          color: Colors.blue,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: Text(
-                          mails[0],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          phoneno[8],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          officeno[8],
-                          style: TextStyle(
-                            fontFamily: 'Architects Daughter',
-                            color: Colors.blue,
-                            fontSize: 15,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+
+
+          buildKey1(
+              name: namesbody[7],
+              name2: Lecturer[7],
+              photo: imagename[7],
+              number: 1,
+              phone: phoneno[7],
+              office: officeno[7],
+              email: mails[7]),
+
+
+
         ],
       ),
     );
   }
 }
 
-class CivilEng extends StatelessWidget {
+class CivilEng extends StatefulWidget {
   CivilEng({Key key}) : super(key: key);
+
+  @override
+  _CivilEngState createState() => _CivilEngState();
+}
+
+class _CivilEngState extends State<CivilEng> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. & Department Chair',
@@ -1415,7 +869,7 @@ class CivilEng extends StatelessWidget {
     'Assist Prof. ',
     'Assist Prof. ',
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Lütfi ARDA',
     'Serhan KIRLANGIÇ',
@@ -1423,6 +877,7 @@ class CivilEng extends StatelessWidget {
     'İrem ŞANAL',
     'Masoud NEGİN',
   ];
+
   List<String> mails = <String>[
     '  Email: lutfi.arda@eng.bau.edu.tr',
     '  Email: serhan.kirlangic@eng.bau.edu.tr',
@@ -1430,6 +885,7 @@ class CivilEng extends StatelessWidget {
     '  Email: irem.sanal@eng.bau.edu.tr',
     '  Email: masoud.negin@eng.bau.edu.tr',
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0558',
     'Phone No: +90 212 381 5699',
@@ -1437,6 +893,7 @@ class CivilEng extends StatelessWidget {
     'Phone No: +90 212 381 5675',
     'Phone No: +90 212 381 5668',
   ];
+
   List<String> officeno = <String>[
     'Office No: D313',
     'Office No: D401',
@@ -1444,6 +901,7 @@ class CivilEng extends StatelessWidget {
     'Office No: D214',
     'Office No: D415',
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/lutfiarda/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/serhankirlangic/tr/images/Bitmap.jpg',
@@ -1468,12 +926,13 @@ class CivilEng extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 90,
+
         child: Row(
           children: [
             SizedBox(
@@ -1482,94 +941,107 @@ class CivilEng extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 39,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 25,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -1577,15 +1049,27 @@ class CivilEng extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 100,
+
+          ),
+          Text(
+            '    Civil Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 50,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -1596,7 +1080,7 @@ class CivilEng extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -1607,7 +1091,7 @@ class CivilEng extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -1618,7 +1102,7 @@ class CivilEng extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -1629,7 +1113,7 @@ class CivilEng extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -1640,7 +1124,7 @@ class CivilEng extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -1649,31 +1133,99 @@ class CivilEng extends StatelessWidget {
   }
 }
 
-class Mechatronics extends StatelessWidget {
+class Mechatronics extends StatefulWidget {
   Mechatronics({Key key}) : super(key: key);
 
+  @override
+  _MechatronicsState createState() => _MechatronicsState();
+}
+
+class _MechatronicsState extends State<Mechatronics> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
+
   List<String> Lecturer = <String>[
-    'Assoc. Prof. & (Department Chair)',
+    'Assoc. Prof. & Department Chair',
     'Prof. ',
     'Assoc. Prof. ',
     'Teaching Assist. ',
     'Assoc. Prof. ',
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Mehmet Berke GÜR',
     'Lütfi ARDA',
     'Ozan AKDOĞAN',
     'Sevgi CANPOLAT',
-    'Armağan Fatih KARAMANLI',
+    'Fatih KARAMANLI',
   ];
+
   List<String> mails = <String>[
-    '  Email: berke.gur@eng.bau.edu.tr',
-    '  Email: lutfi.arda@eng.bau.edu.tr',
-    '  Email: ozan.akdogan@eng.bau.edu.tr',
-    '  Email: sevgi.canpolat@eng.bau.edu.tr',
-    '  Email: armaganfatih.karamanli@eng.bau.edu.tr',
+    'Email: berke.gur@eng.bau.edu.tr',
+    'Email: lutfi.arda@eng.bau.edu.tr',
+    'Email: ozan.akdogan@eng.bau.edu.tr',
+    'Email: sevgi.canpolat@eng.bau.edu.tr',
+    'Email: fatih.karamanli@eng.bau.edu.tr',
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0556',
     'Phone No: +90 212 381 0558',
@@ -1681,6 +1233,7 @@ class Mechatronics extends StatelessWidget {
     'Phone No: +90 212 381 5660',
     'Phone No: +90 212 381 5713',
   ];
+
   List<String> officeno = <String>[
     'Office No: D527',
     'Office No: D313',
@@ -1688,6 +1241,7 @@ class Mechatronics extends StatelessWidget {
     'Office No: TBA',
     'Office No: D531',
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/mehmetberkegur/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/lutfiarda/tr/images/Bitmap.jpg',
@@ -1696,6 +1250,7 @@ class Mechatronics extends StatelessWidget {
     'https://akademik.bahcesehir.edu.tr/web/armaganfatihkaramanli/tr/images/Bitmap.jpg',
 
   ];
+
   Card buildKey1(
       {String name,
         String name2,
@@ -1711,12 +1266,13 @@ class Mechatronics extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -1725,94 +1281,107 @@ class Mechatronics extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 41,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 30,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -1820,16 +1389,28 @@ class Mechatronics extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: 40,
-          ),
+            SizedBox(
+              height: 100,
+
+            ),
+            Text(
+              'Mechatronics Engineering\n'
+                  '   '
+                  '  Academic Staff',
+              style: TextStyle(
+                fontSize: 40,
+                fontFamily: 'Architects Daughter',
+                color: Color(0xFF01579b),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
           buildKey1(
               name: namesbody[0],
               name2: Lecturer[0],
@@ -1839,7 +1420,7 @@ class Mechatronics extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -1850,7 +1431,7 @@ class Mechatronics extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -1861,7 +1442,7 @@ class Mechatronics extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -1872,7 +1453,7 @@ class Mechatronics extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -1883,7 +1464,7 @@ class Mechatronics extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -1892,11 +1473,77 @@ class Mechatronics extends StatelessWidget {
   }
 }
 
-class MBG extends StatelessWidget {
+class MBG extends StatefulWidget {
   MBG({Key key}) : super(key: key);
 
+  @override
+  _MBGState createState() => _MBGState();
+}
+
+class _MBGState extends State<MBG> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
+
   List<String> Lecturer = <String>[
-    'Prof. & (Department Chair)',
+    'Prof. & Department Chair',
     'Assist Prof. ',
     'Assist Prof. ',
     'Assist Prof. ',
@@ -1904,7 +1551,7 @@ class MBG extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Gülay BULUT',
     'Cemalettin BEKPEN',
@@ -1913,6 +1560,7 @@ class MBG extends StatelessWidget {
     'Elif Eren',
 
   ];
+
   List<String> mails = <String>[
     '  Email: gulay.bulut@eng.bau.edu.tr',
     '  Email: cemalettin.bekpen  eng.bau.edu.tr',
@@ -1921,6 +1569,7 @@ class MBG extends StatelessWidget {
     '  Email: elif.eren@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0540',
     'Phone No: +90 212 381 0000',
@@ -1930,6 +1579,7 @@ class MBG extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D310',
     'Office No: D526',
@@ -1939,6 +1589,7 @@ class MBG extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://cdn.bau.edu.tr/staff/895.jpg',
     'https://akademik.bahcesehir.edu.tr/web/cemalettinbekpen/tr/images/Bitmap.jpg',
@@ -1964,12 +1615,13 @@ class MBG extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 90,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -1978,94 +1630,107 @@ class MBG extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 41,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 290,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 28,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 350,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -2073,15 +1738,27 @@ class MBG extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Molecular Biology&Genetics\n'
+                '   '
+                '    Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -2092,7 +1769,7 @@ class MBG extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -2103,7 +1780,7 @@ class MBG extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -2114,7 +1791,7 @@ class MBG extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -2125,7 +1802,7 @@ class MBG extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -2136,7 +1813,7 @@ class MBG extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -2145,8 +1822,74 @@ class MBG extends StatelessWidget {
   }
 }
 
-class Math extends StatelessWidget {
+class Math extends StatefulWidget {
   Math({Key key}) : super(key: key);
+
+  @override
+  _MathState createState() => _MathState();
+}
+
+class _MathState extends State<Math> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Assoc. Prof. & (Department Chair)',
@@ -2157,23 +1900,25 @@ class Math extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
-    'Süreyya ÖZÖĞÜR AKYÜZ',
+    'Süreyya AKYÜZ',
     'Duygu ÜÇÜNÇÜ',
     'Maksat ASHYRALIYEV',
     'Lavdie RADA',
     'Doğan AKCAN',
 
   ];
+
   List<String> mails = <String>[
-    '  Email: sureyya.akyuz@eng.bau.edu.tr',
-    '  Email: duygu.ucuncu@eng.bau.edu.tr',
-    '  Email: maksat.ashyralyyev@eng.bau.edu.tr',
-    '  Email: lavdie.rada@eng.bau.edu.tr',
-    '  Email: dogan.akcan@eng.bau.edu.tr',
+    'Email: sureyya.akyuz@eng.bau.edu.tr',
+    'Email: duygu.ucuncu@eng.bau.edu.tr',
+    'Email: maksat.ashyralyyev@eng.bau.edu.tr',
+    'Email: lavdie.rada@eng.bau.edu.tr',
+    'Email: dogan.akcan@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0534',
     'Phone No: +90 212 381 0586',
@@ -2183,6 +1928,7 @@ class Math extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D309',
     'Office No: D412',
@@ -2192,6 +1938,7 @@ class Math extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/sureyyaakyuz/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/duyguucuncu/tr/images/Bitmap.jpg',
@@ -2202,7 +1949,6 @@ class Math extends StatelessWidget {
 
   ];
 
-
   Card buildKey1(
       {String name,
         String name2,
@@ -2218,12 +1964,13 @@ class Math extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -2232,94 +1979,107 @@ class Math extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 25,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -2327,15 +2087,27 @@ class Math extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            '     Mathematics\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -2346,7 +2118,7 @@ class Math extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -2357,7 +2129,7 @@ class Math extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -2368,7 +2140,7 @@ class Math extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -2379,7 +2151,7 @@ class Math extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -2390,17 +2162,84 @@ class Math extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
       ),
+
     );
   }
 }
 
-class Energy extends StatelessWidget {
+class Energy extends StatefulWidget {
   Energy({Key key}) : super(key: key);
+
+  @override
+  _EnergyState createState() => _EnergyState();
+}
+
+class _EnergyState extends State<Energy> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Assist Prof. & (Department Chair)',
@@ -2411,23 +2250,25 @@ class Energy extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Gürkan SOYKAN',
     'Canan ACAR',
     'İrem FIRTINA',
-    'Mehmet Turgay PAMUK',
+    'M.Turgay PAMUK',
     'Nezihe YILDIRAN',
 
   ];
+
   List<String> mails = <String>[
-    '  Email: gurkan.soykan@eng.bau.edu.tr',
-    '  Email: canan.acar@eng.bau.edu.tr',
-    '  Email: irem.firtina@eng.bau.edu.tr',
-    '  Email: mehmetturgay.pamuk@eng.bau.edu.tr',
-    '  Email: nezihe.kucukyildiran@eng.bau.edu.tr',
+    'Email: gurkan.soykan@eng.bau.edu.tr',
+    'Email: canan.acar@eng.bau.edu.tr',
+    'Email: irem.firtina@eng.bau.edu.tr',
+    'Email: mehmet.pamuk@eng.bau.edu.tr',
+    'Email: nezihe.kucukyildiran@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 5672',
     'Phone No: +90 212 381 0887',
@@ -2437,6 +2278,7 @@ class Energy extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D516',
     'Office No: D437',
@@ -2446,6 +2288,7 @@ class Energy extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/gurkansoykan/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/cananacar/tr/images/Bitmap.jpg',
@@ -2455,7 +2298,6 @@ class Energy extends StatelessWidget {
 
 
   ];
-
 
   Card buildKey1(
       {String name,
@@ -2472,12 +2314,13 @@ class Energy extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -2486,94 +2329,107 @@ class Energy extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 30,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -2581,15 +2437,27 @@ class Energy extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Energy Systems Engineering\n'
+                '   '
+                '     Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -2600,7 +2468,7 @@ class Energy extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -2611,7 +2479,7 @@ class Energy extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -2622,7 +2490,7 @@ class Energy extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -2633,7 +2501,7 @@ class Energy extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -2644,7 +2512,7 @@ class Energy extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -2653,9 +2521,74 @@ class Energy extends StatelessWidget {
   }
 }
 
-class Software extends StatelessWidget {
+class Software extends StatefulWidget {
   Software({Key key}) : super(key: key);
 
+  @override
+  _SoftwareState createState() => _SoftwareState();
+}
+
+class _SoftwareState extends State<Software> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. & (Department Chair)',
@@ -2666,7 +2599,7 @@ class Software extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Mehmet Alper TUNGA',
     'Pınar BÖLÜK',
@@ -2675,6 +2608,7 @@ class Software extends StatelessWidget {
     'Tamer UÇAR',
 
   ];
+
   List<String> mails = <String>[
     '  Email: alper.tunga@eng.bau.edu.tr',
     '  Email: pinar.sarisaray@eng.bau.edu.tr',
@@ -2683,6 +2617,7 @@ class Software extends StatelessWidget {
     '  Email:tamer.ucar@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0562',
     'Phone No: +90 212 381 0579',
@@ -2692,6 +2627,7 @@ class Software extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D529',
     'Office No: D528',
@@ -2701,6 +2637,7 @@ class Software extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/mehmetalpertunga/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/pinarsarisarayboluk/tr/images/Bitmap.jpg',
@@ -2726,12 +2663,13 @@ class Software extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -2740,94 +2678,107 @@ class Software extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 28,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -2835,15 +2786,27 @@ class Software extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Software Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -2854,7 +2817,7 @@ class Software extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -2865,7 +2828,7 @@ class Software extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -2876,7 +2839,7 @@ class Software extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -2887,7 +2850,7 @@ class Software extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -2898,7 +2861,7 @@ class Software extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -2907,8 +2870,74 @@ class Software extends StatelessWidget {
   }
 }
 
-class Industrial extends StatelessWidget {
+class Industrial extends StatefulWidget {
   Industrial({Key key}) : super(key: key);
+
+  @override
+  _IndustrialState createState() => _IndustrialState();
+}
+
+class _IndustrialState extends State<Industrial> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. & (Department Chair)',
@@ -2919,7 +2948,7 @@ class Industrial extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Gül Tekin TEMUR',
     'Mustafa ÖZBAYRAK',
@@ -2928,6 +2957,7 @@ class Industrial extends StatelessWidget {
     'Özlem KANGA',
 
   ];
+
   List<String> mails = <String>[
     '  Email: gul.temuren@g.bau.edu.tr',
     '  Email: mustafa.ozbayrak@eng.bau.edu.tr',
@@ -2936,6 +2966,7 @@ class Industrial extends StatelessWidget {
     '  Email: ozlem.kanga@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0841',
     'Phone No: +90 212 381 5703',
@@ -2945,6 +2976,7 @@ class Industrial extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D420',
     'Office No: D403',
@@ -2954,6 +2986,7 @@ class Industrial extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/gultemur/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/ahmetbeskese/tr/images/Bitmap.jpg',
@@ -2963,6 +2996,7 @@ class Industrial extends StatelessWidget {
 
 
   ];
+
   Card buildKey1(
       {String name,
         String name2,
@@ -2978,12 +3012,13 @@ class Industrial extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -2992,94 +3027,107 @@ class Industrial extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 28,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -3087,15 +3135,27 @@ class Industrial extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Industrial Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -3106,7 +3166,7 @@ class Industrial extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -3117,7 +3177,7 @@ class Industrial extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -3128,7 +3188,7 @@ class Industrial extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -3139,7 +3199,7 @@ class Industrial extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -3150,7 +3210,7 @@ class Industrial extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -3159,8 +3219,74 @@ class Industrial extends StatelessWidget {
   }
 }
 
-class Management extends StatelessWidget {
+class Management extends StatefulWidget {
   Management({Key key}) : super(key: key);
+
+  @override
+  _ManagementState createState() => _ManagementState();
+}
+
+class _ManagementState extends State<Management> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. & (Department Chair)',
@@ -3171,23 +3297,25 @@ class Management extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
-    'Yaman Ömer ERZURUMLU',
+    'Y. Ömer ERZURUMLU',
     'Alper CAMCI',
     'Başak AKDEMİR',
     'Selçuk TUZCUOĞLU',
     'Didem YILDIZ',
 
   ];
+
   List<String> mails = <String>[
-    '  Email: yamanomer.erzurumlu@eng.bau.edu.tr',
+    '  Email: yomer.erzurumlu@eng.bau.edu.tr',
     '  Email: alper.camci@eng.bau.edu.tr',
     '  Email: basak.akdemir@eng.bau.edu.tr',
     '  Email: selcuk.tuzcuoglu@bau.edu.tr',
     '  Email: didem.arslanbas@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 0853',
     'Phone No: +90 212 381 5692',
@@ -3197,6 +3325,7 @@ class Management extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D419',
     'Office No: D440',
@@ -3206,6 +3335,7 @@ class Management extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/yamanomererzurumlu/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/alpercamci/tr/images/Bitmap.jpg',
@@ -3231,12 +3361,13 @@ class Management extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -3245,94 +3376,107 @@ class Management extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 26,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -3340,15 +3484,27 @@ class Management extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Management Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -3359,7 +3515,7 @@ class Management extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -3370,7 +3526,7 @@ class Management extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -3381,7 +3537,7 @@ class Management extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -3392,7 +3548,7 @@ class Management extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -3403,7 +3559,7 @@ class Management extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -3412,8 +3568,74 @@ class Management extends StatelessWidget {
   }
 }
 
-class Biomed extends StatelessWidget {
+class Biomed extends StatefulWidget {
   Biomed({Key key}) : super(key: key);
+
+  @override
+  _BiomedState createState() => _BiomedState();
+}
+
+class _BiomedState extends State<Biomed> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Assist Prof. & (Department Chair)',
@@ -3425,15 +3647,16 @@ class Biomed extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Hakan SOLMAZ',
     'Yekta ÜLGEN',
     'Ayşe Sena SARP',
     'Pelin ERKOÇ',
-    'Burcu TUNÇ ÇAMLIBEL',
+    'Burcu TUNÇ ',
 
   ];
+
   List<String> mails = <String>[
     '  Email: hakan.solmaz@eng.bau.edu.tr',
     '  Email: aliyekta.ulgen@eng.bau.edu.tr',
@@ -3442,6 +3665,7 @@ class Biomed extends StatelessWidget {
     '  Email: burcu.tunc@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 5673',
     'Phone No: +90 212 381 5693',
@@ -3451,6 +3675,7 @@ class Biomed extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No: D314',
     'Office No: D411',
@@ -3460,6 +3685,7 @@ class Biomed extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/hakansolmaz/tr/images/Bitmap.jpg',
     'https://akademik.bahcesehir.edu.tr/web/aliyektaulgen/tr/images/Bitmap.jpg',
@@ -3469,6 +3695,7 @@ class Biomed extends StatelessWidget {
 
 
   ];
+
   Card buildKey1(
       {String name,
         String name2,
@@ -3484,12 +3711,13 @@ class Biomed extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -3498,94 +3726,107 @@ class Biomed extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 28,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -3593,15 +3834,27 @@ class Biomed extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Biomedical Engineering\n'
+                '   '
+                'Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -3612,7 +3865,7 @@ class Biomed extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -3623,7 +3876,7 @@ class Biomed extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -3634,7 +3887,7 @@ class Biomed extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -3645,7 +3898,7 @@ class Biomed extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -3656,7 +3909,7 @@ class Biomed extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
@@ -3665,8 +3918,74 @@ class Biomed extends StatelessWidget {
   }
 }
 
-class AI extends StatelessWidget {
+class AI extends StatefulWidget {
   AI({Key key}) : super(key: key);
+
+  @override
+  _AIState createState() => _AIState();
+}
+
+class _AIState extends State<AI> {
+  void annen() async {
+
+
+    final killer =
+    await redis.PubSub.connect<String, String>('redis://192.168.0.14:6379');
+
+    print('connected');
+
+    // Ctrl+C handler.
+    ProcessSignal.sigint.watch().listen((_) async {
+      await killer.disconnect();
+      print('just wonder if its work or not');
+      exit(0);
+    });
+
+
+
+
+
+    // Outputs the data received from the server.
+    killer.stream.listen((event){
+      if(event is MessageEvent){
+
+        print(event.message);
+        if (event.message == 'return') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Majors()));
+          killer.punsubscribe();
+        } else if (event.message == 'end') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainScreen()));
+          killer.punsubscribe();
+        }
+      }
+
+
+
+
+
+      else{
+        print(event);
+      }
+    },onError: print,onDone: () => exit(0));
+
+
+
+
+    // ignore: non_constant_identifier_names
+
+
+    // Subscribes the client to some channels.
+    killer.psubscribe(pattern: 'commands');
+  }
+
+  @override
+  void initState() {
+    annen();
+    super.initState();
+
+  }
 
   List<String> Lecturer = <String>[
     'Prof. & (Department Chair)',
@@ -3679,7 +3998,7 @@ class AI extends StatelessWidget {
 
 
   ];
-// ignore: non_constant_identifier_names
+
   List<String> namesbody = <String>[
     'Nafiz ARICA',
     'Fatoş YARMAN VURAL',
@@ -3689,6 +4008,7 @@ class AI extends StatelessWidget {
     'Tamer UÇAR',
 
   ];
+
   List<String> mails = <String>[
     '  Email: nafiz.arica@eng.bau.edu.tr',
     '  Email:  TBW',
@@ -3698,6 +4018,7 @@ class AI extends StatelessWidget {
     '  Email: tamer.ucar@eng.bau.edu.tr',
 
   ];
+
   List<String> phoneno = <String>[
     'Phone No: +90 212 381 5800',
     'Phone No: +90 212 381 0000',
@@ -3708,6 +4029,7 @@ class AI extends StatelessWidget {
 
 
   ];
+
   List<String> officeno = <String>[
     'Office No:  D515',
     'Office No:  TBA',
@@ -3718,6 +4040,7 @@ class AI extends StatelessWidget {
 
 
   ];
+
   List<String> imagename = <String>[
     'https://akademik.bahcesehir.edu.tr/web/nafizarica/tr/images/Bitmap.jpg',
     'https://cdn.bau.edu.tr/staff/2270.jpeg',
@@ -3744,12 +4067,13 @@ class AI extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.blue,
+            color: Color(0xFF4ba3c7),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        height: 80,
+        height: 100,
+        width: 800,
         child: Row(
           children: [
             SizedBox(
@@ -3758,94 +4082,107 @@ class AI extends StatelessWidget {
             Text(
               '$number',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
                 fontFamily: 'Architects Daughter',
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             SizedBox(
               height: 50,
               child: VerticalDivider(
                 thickness: 2,
-                color: Colors.blue,
+                color: Color(0xFF004c8c),
               ),
             ),
             CircleAvatar(
               backgroundImage: NetworkImage(photo),
-              radius: 30,
+              radius: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 30,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Text(
-                  name2,
-                  style: TextStyle(
-                    fontFamily: 'Architects Daughter',
-                    color: Colors.blue,
-                    fontSize: 15,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    email,
+                  Text(
+                    name,
                     style: TextStyle(
                       fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
+                      color: Color(0xFF004c8c),
+                      fontSize: 28,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    name2,
+                    style: TextStyle(
+                      fontFamily: 'Architects Daughter',
+                      color: Color(0xFF004c8c),
                       fontSize: 15,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    phone,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                ],
+              ),
+            ),
+            Container(
+              width: 320,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      email,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 14,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    office,
-                    style: TextStyle(
-                      fontFamily: 'Architects Daughter',
-                      color: Colors.blue,
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      phone,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: Text(
+                      office,
+                      style: TextStyle(
+                        fontFamily: 'Architects Daughter',
+                        color: Color(0xFF004c8c),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+
+                ],
+              ),
             ),
           ],
         ),
@@ -3853,15 +4190,27 @@ class AI extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 110,
+
+          ),
+          Text(
+            'Artificial Intelligence Engineering\n'
+                '   '
+                '       Academic Staff',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'Architects Daughter',
+              color: Color(0xFF01579b),
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           buildKey1(
               name: namesbody[0],
@@ -3872,7 +4221,7 @@ class AI extends StatelessWidget {
               office: officeno[0],
               email: mails[0]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[1],
@@ -3883,7 +4232,7 @@ class AI extends StatelessWidget {
               office: officeno[1],
               email: mails[1]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[2],
@@ -3894,7 +4243,7 @@ class AI extends StatelessWidget {
               office: officeno[2],
               email: mails[2]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[3],
@@ -3905,7 +4254,7 @@ class AI extends StatelessWidget {
               office: officeno[3],
               email: mails[3]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           buildKey1(
               name: namesbody[4],
@@ -3916,7 +4265,7 @@ class AI extends StatelessWidget {
               office: officeno[4],
               email: mails[4]),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
 
         ],
